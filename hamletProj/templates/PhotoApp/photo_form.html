@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+{% block css %}
+<style>
+.img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+</style>
+{% endblock %}
+{% block content %}
+  <form action="" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {% if form.image.value %}
+    <img class="img" src="{{form.image.value.url}}" alt="{{form.name.value}}" style="width: 10%;">
+    {% endif %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

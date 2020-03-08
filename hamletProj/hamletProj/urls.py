@@ -15,8 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
+from rest_framework_simplejwt import views as jwt_views
+from django.conf import settings
+from django.conf.urls import url
+from django.contrib.auth import views as auth_views
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
 
 urlpatterns = [
+    url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
-    path("", include("PhotoApp.urls")),
+    path('', include("PhotoApp.urls")),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    url('^register/', CreateView.as_view(
+            template_name='register.html',
+            form_class=UserCreationForm,
+            success_url='/'
+    )),
+    url('^accounts/', include('django.contrib.auth.urls')),
 ]
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
