@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
-from rest_framework_simplejwt import views as jwt_views
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
@@ -30,8 +29,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('', include("PhotoApp.urls")),
-    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('', include('PhotoAppApi.urls')),
     url('^register/', CreateView.as_view(
             template_name='register.html',
             form_class=UserCreationForm,

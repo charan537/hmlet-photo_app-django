@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_tables2',
     'bootstrap3',
     'crequest',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -131,6 +132,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 LOGIN_REDIRECT_URL  = '/photo/search'
 LOGIN_URL = '/login/'
