@@ -1,18 +1,18 @@
 from django.urls import include, path
 from rest_framework import routers
 from . import views
-from rest_framework_simplejwt import views as jwt_views
+from rest_framework_swagger.views import get_swagger_view
+schema_view = get_swagger_view(title="Photo API")
 
 router = routers.DefaultRouter()
-router.register(r'photos', views.PhotosViewSet)
-#router.register(r'myphotos', views.MyPhotosViewSet,basename='Photo')
-#router.register(r'mydrafts', views.MyDraftPhotosViewSet,basename='Photo')
+router.register(r'myphotos', views.PhotosViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('photoApi/', include(router.urls)),
-    path('photoApi/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('photoApi/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('photoApi/auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('photoApi/photoList', views.PhotoListView.as_view(),name='photoList'),
+    path('photoApi/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('photoApi/jwtauth/', include('jwtauth.urls'), name='jwtauth'),
+    path('photoApi/docs/', schema_view), 
 ]

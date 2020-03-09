@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crequest',
     'django_filters',
+    'jwtauth',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -129,10 +131,14 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    "DEFAULT_PERMISSION_CLASSES":
+        ["rest_framework.permissions.IsAuthenticated",], 
+    'DEFAULT_AUTHENTICATION_CLASSES': [       
+        'rest_framework.authentication.SessionAuthentication',  
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 LOGIN_REDIRECT_URL  = '/photo/search'
 LOGIN_URL = '/login/'
